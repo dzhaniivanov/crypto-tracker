@@ -26,7 +26,9 @@ const CoinDetailedScreen = () => {
   const [coinMarketData, setCoinMarketData] = useState(null);
 
   const route = useRoute();
-  const { params: {coinId} } = route;
+  const {
+    params: { coinId },
+  } = route;
 
   const [loading, setLoading] = useState(false);
   const [coinValue, setCoinValue] = useState("1");
@@ -51,6 +53,7 @@ const CoinDetailedScreen = () => {
   }
 
   const {
+    id,
     image: { small },
     name,
     symbol,
@@ -97,6 +100,7 @@ const CoinDetailedScreen = () => {
         }}
       >
         <CoinDetailedHeader
+          coinId={id}
           image={small}
           name={name}
           symbol={symbol}

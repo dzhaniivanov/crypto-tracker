@@ -2,11 +2,25 @@ import { View, Text, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
-import { FontAwesome } from '@expo/vector-icons';
+import { FontAwesome } from "@expo/vector-icons";
+import { useWatchlist } from "../../../../context/WatchlistContext";
 
 const CoinDetailedHeader = (props) => {
-  const { image, symbol, marketCapRank } = props;
+  const { coinId, image, symbol, marketCapRank } = props;
   const navigation = useNavigation();
+  const { watchlistCoinIds, storeWatchListCoinId, removeWatchlistCoindId } =
+    useWatchlist();
+
+  const checkIfCoinIsWatchlisted = () => {
+    return watchlistCoinIds.some((coinIdValue) => coinIdValue === coinId);
+  };
+
+  const handleWatchlistCoin = () => {
+    if (checkIfCoinIsWatchlisted()) {
+      return removeWatchlistCoindId(coinId);
+    }
+    return storeWatchListCoinId(coinId);
+  };
 
   return (
     <View style={styles.headerContainer}>
@@ -25,7 +39,12 @@ const CoinDetailedHeader = (props) => {
           </Text>
         </View>
       </View>
-      <FontAwesome name="star-o" size={25} color="white" />
+      <FontAwesome
+        name={checkIfCoinIsWatchlisted() ? "star" : "star-o"}
+        size={25}
+        color={checkIfCoinIsWatchlisted() ? "#ffbf00" : "white"}
+        onPress={handleWatchlistCoin}
+      />
     </View>
   );
 };

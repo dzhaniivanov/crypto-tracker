@@ -1,8 +1,8 @@
 import { View, Text, Image } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
-import { FontAwesome5 } from "@expo/vector-icons";
 import styles from "./styles";
 import { useNavigation } from "@react-navigation/native";
+import { FontAwesome } from '@expo/vector-icons';
 
 const CoinDetailedHeader = (props) => {
   const { image, symbol, marketCapRank } = props;
@@ -25,7 +25,7 @@ const CoinDetailedHeader = (props) => {
           </Text>
         </View>
       </View>
-      <FontAwesome5 name="user" size={30} color="white" />
+      <FontAwesome name="star-o" size={25} color="white" />
     </View>
   );
 };

@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
   valueChange: {
     fontWeight: "600",
     fontSize: 16,
-    color: "white",
   },
   percentageChange: {
     color: "white",
@@ -32,7 +31,6 @@ const styles = StyleSheet.create({
   },
   pricesChangePercetangeContainer: {
     flexDirection: "row",
-    backgroundColor: "#16c784",
     paddingHorizontal: 3,
     paddingVertical: 8,
     borderRadius: 5,

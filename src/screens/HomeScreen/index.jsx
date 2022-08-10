@@ -1,9 +1,7 @@
 import { useEffect, useState } from "react";
-import { FlatList, RefreshControl } from "react-native";
+import { FlatList, RefreshControl, Text, View } from "react-native";
 import CoinItem from "../../components/CoinItem";
 import { getMarketData } from "../../services/requests";
-
-import cryptocurrencies from "../../../assets/data/cryptocurrencies.json";
 
 const HomeScreen = () => {
   const [coins, setCoins] = useState([]);
@@ -34,18 +32,32 @@ const HomeScreen = () => {
   }, []);
 
   return (
-    <FlatList
-      data={coins}
-      renderItem={({ item }) => <CoinItem marketCoin={item} />}
-      onEndReached={() => fetchCoins(coins.length / 50 + 1)}
-      refreshControl={
-        <RefreshControl
-          refreshing={loading}
-          tintColor="white"
-          onRefresh={refetchCoins}
-        />
-      }
-    />
+    <View>
+      <Text
+        style={{
+          fontFamily: "Inter_900Black",
+          color: "white",
+          fontSize: 25,
+          letterSpacing: 1,
+          paddingHorizontal: 20,
+          paddingBottom: 5,
+        }}
+      >
+        Cryptoassets
+      </Text>
+      <FlatList
+        data={coins}
+        renderItem={({ item }) => <CoinItem marketCoin={item} />}
+        onEndReached={() => fetchCoins(coins.length / 50 + 1)}
+        refreshControl={
+          <RefreshControl
+            refreshing={loading}
+            tintColor="white"
+            onRefresh={refetchCoins}
+          />
+        }
+      />
+    </View>
   );
 };
 

@@ -9,7 +9,6 @@ const FilterComponent = ({
 }) => {
   const isFilterSelected = (filter) => filter === selectedRange;
 
-  console.log("pressed");
   return (
     <Pressable
       style={{

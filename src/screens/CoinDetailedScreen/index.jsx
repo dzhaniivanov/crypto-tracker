@@ -22,6 +22,14 @@ import {
 } from "../../services/requests";
 import FilterComponent from "./components/FilterComponent";
 
+const filterDaysArray = [
+  { filterDay: "1", filterText: "24h" },
+  { filterDay: "7", filterText: "7d" },
+  { filterDay: "30", filterText: "30d" },
+  { filterDay: "365", filterText: "1y" },
+  { filterDay: "max", filterText: "All" },
+];
+
 const CoinDetailedScreen = () => {
   const [coin, setCoin] = useState(null);
   const [coinMarketData, setCoinMarketData] = useState(null);
@@ -115,7 +123,7 @@ const CoinDetailedScreen = () => {
 
   const onSelectedRange = (selectedRangeValue) => {
     setSelectedRange(selectedRangeValue);
-    fetchMarketCoinData(selectedRangeValue)
+    fetchMarketCoinData(selectedRangeValue);
   };
 
   return (
@@ -123,7 +131,6 @@ const CoinDetailedScreen = () => {
       <ChartPathProvider
         data={{
           points: prices.map(([x, y]) => ({ x, y })),
-          smoothingStrategy: "bezier",
         }}
       >
         <CoinDetailedHeader
@@ -159,35 +166,17 @@ const CoinDetailedScreen = () => {
           </View>
         </View>
         <View style={styles.filtersContainer}>
-          <FilterComponent
-            filterDay="1"
-            filterText="24h"
-            selectedRange={selectedRange}
-            setSelectedRange={onSelectedRange}
-          />
-          <FilterComponent
-            filterDay="7"
-            filterText="7d"
-            selectedRange={selectedRange}
-            setSelectedRange={onSelectedRange}
-          />
-          <FilterComponent
-            filterDay="30"
-            filterText="30d"
-            selectedRange={selectedRange}
-            setSelectedRange={onSelectedRange}
-          />
-          <FilterComponent
-            filterDay="365"
-            filterText="1y"
-            selectedRange={selectedRange}
-          />
-          <FilterComponent
-            filterDay="max"
-            filterText="All"
-            selectedRange={selectedRange}
-            setSelectedRange={onSelectedRange}
-          />
+          {filterDaysArray.map((day) => {
+            return (
+              <FilterComponent
+                filterDay={day.filterDay}
+                filterText={day.filterText}
+                selectedRange={selectedRange}
+                setSelectedRange={onSelectedRange}
+                key={day.filterText}
+              />
+            );
+          })}
         </View>
         <View>
           <ChartPath

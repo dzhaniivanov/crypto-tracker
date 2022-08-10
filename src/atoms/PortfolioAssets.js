@@ -21,11 +21,11 @@ export const allPortfolioBoughtAssetsFromAPI = selector({
     const boughtAssets = boughtPortfolioAssets.map((boughtAsset) => {
       const portfolioAsset = portfolioAssetsMarketData.filter(
         (item) => boughtAsset.id === item.id
-      );
+      )[0];
       return {
         ...boughtAsset,
         currentPrice: portfolioAsset.current_price,
-        priceChangePercetange: portfolioAsset.price_change_percentage_24,
+        priceChangePercentage: portfolioAsset.price_change_percentage_24h,
       };
     });
 

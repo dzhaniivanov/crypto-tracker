@@ -34,6 +34,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: 3,
     paddingVertical: 8,
     borderRadius: 5,
+
   },
   assetsLabel: {
     color: "white",

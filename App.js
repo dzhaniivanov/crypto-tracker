@@ -9,6 +9,7 @@ import { useFonts, Inter_900Black } from "@expo-google-fonts/inter";
 export default function App() {
   let [fontsLoaded] = useFonts({
     Inter_900Black,
+    DroidSans: require("./assets/fonts/DroidSans.ttf"),
   });
 
   if (!fontsLoaded) {

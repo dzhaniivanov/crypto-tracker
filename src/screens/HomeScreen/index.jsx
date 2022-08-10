@@ -35,7 +35,7 @@ const HomeScreen = () => {
     <View>
       <Text
         style={{
-          fontFamily: "Inter_900Black",
+          fontFamily: "DroidSans",
           color: "white",
           fontSize: 25,
           letterSpacing: 1,

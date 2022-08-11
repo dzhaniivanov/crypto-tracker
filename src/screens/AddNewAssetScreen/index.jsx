@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { View, Text, TextInput, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import SearchableDropdown from "react-native-searchable-dropdown";
 import styles from "./styles";
 import { useRecoilState } from "recoil";
@@ -72,7 +79,11 @@ const AddNewAssetScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={80}
+      behavior={(Platform.OS === "ios" ? "padding" : "height")}
+    >
       <SearchableDropdown
         items={allCoins}
         onItemSelect={(item) => setSelectedCoinId(item.id)}
@@ -95,7 +106,7 @@ const AddNewAssetScreen = () => {
                 style={{ color: "white", fontSize: 90 }}
                 value={boughtAssetQuantity}
                 placeholder="0"
-                // keyboardType="numeric"
+                keyboardType="numeric"
                 onChangeText={setBoughtAssetQuantity}
               />
               <Text style={styles.ticker}>
@@ -125,7 +136,7 @@ const AddNewAssetScreen = () => {
           </Pressable>
         </>
       )}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

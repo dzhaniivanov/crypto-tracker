@@ -20,6 +20,15 @@ import {
   getCoinMarketChart,
   getDetailedCoinData,
 } from "../../services/requests";
+import FilterComponent from "./components/FilterComponent";
+
+const filterDaysArray = [
+  { filterDay: "1", filterText: "24h" },
+  { filterDay: "7", filterText: "7d" },
+  { filterDay: "30", filterText: "30d" },
+  { filterDay: "365", filterText: "1y" },
+  { filterDay: "max", filterText: "All" },
+];
 
 const CoinDetailedScreen = () => {
   const [coin, setCoin] = useState(null);
@@ -33,19 +42,34 @@ const CoinDetailedScreen = () => {
   const [loading, setLoading] = useState(false);
   const [coinValue, setCoinValue] = useState("1");
   const [usdValue, setUsdValue] = useState("");
+  const [selectedRange, setSelectedRange] = useState("1");
 
   const fetchCoinData = async () => {
     setLoading(true);
     const fetchedCoinData = await getDetailedCoinData(coinId);
-    const fetchedCoinMarketData = await getCoinMarketChart(coinId);
+    const fetchedCoinMarketData = await getCoinMarketChart(
+      coinId,
+      selectedRange
+    );
     setCoin(fetchedCoinData);
     setCoinMarketData(fetchedCoinMarketData);
     setUsdValue(fetchedCoinData.market_data.current_price.usd.toString());
     setLoading(false);
   };
 
+  const fetchMarketCoinData = async (selectedRangeValue) => {
+    setLoading(true);
+    const fetchedCoinMarketData = await getCoinMarketChart(
+      coinId,
+      selectedRangeValue
+    );
+    setCoinMarketData(fetchedCoinMarketData);
+    setLoading(false);
+  };
+
   useEffect(() => {
     fetchCoinData();
+    fetchMarketCoinData(1);
   }, []);
 
   if (loading || !coin || !coinMarketData) {
@@ -79,8 +103,8 @@ const CoinDetailedScreen = () => {
       }
       return `$${current_price.usd.toFixed(2)}`;
     }
-    if(current_price.usd<1){
-      return `$${parseFloat(value)}`
+    if (current_price.usd < 1) {
+      return `$${parseFloat(value)}`;
     }
     return `$${parseFloat(value).toFixed(2)}`;
   };
@@ -97,12 +121,16 @@ const CoinDetailedScreen = () => {
     setCoinValue((floatValue / current_price.usd).toString());
   };
 
+  const onSelectedRange = (selectedRangeValue) => {
+    setSelectedRange(selectedRangeValue);
+    fetchMarketCoinData(selectedRangeValue);
+  };
+
   return (
     <View style={{ paddingHorizontal: 10 }}>
       <ChartPathProvider
         data={{
           points: prices.map(([x, y]) => ({ x, y })),
-          smoothingStrategy: "bezier",
         }}
       >
         <CoinDetailedHeader
@@ -137,7 +165,19 @@ const CoinDetailedScreen = () => {
             </Text>
           </View>
         </View>
-
+        <View style={styles.filtersContainer}>
+          {filterDaysArray.map((day) => {
+            return (
+              <FilterComponent
+                filterDay={day.filterDay}
+                filterText={day.filterText}
+                selectedRange={selectedRange}
+                setSelectedRange={onSelectedRange}
+                key={day.filterText}
+              />
+            );
+          })}
+        </View>
         <View>
           <ChartPath
             strokeWidth={2}

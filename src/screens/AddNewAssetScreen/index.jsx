@@ -1,5 +1,12 @@
 import { useEffect, useState } from "react";
-import { View, Text, TextInput, Pressable } from "react-native";
+import {
+  View,
+  Text,
+  TextInput,
+  Pressable,
+  KeyboardAvoidingView,
+  Platform,
+} from "react-native";
 import SearchableDropdown from "react-native-searchable-dropdown";
 import styles from "./styles";
 import { useRecoilState } from "recoil";
@@ -7,6 +14,7 @@ import { allPortfolioBoughtAssetsInStorage } from "../../atoms/PortfolioAssets";
 import { getAllCoins, getDetailedCoinData } from "../../services/requests";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { useNavigation } from "@react-navigation/native";
+import uuid from "react-native-uuid";
 
 const AddNewAssetScreen = () => {
   const [allCoins, setAllCoins] = useState([]);
@@ -55,6 +63,7 @@ const AddNewAssetScreen = () => {
   const onAddNewAsset = async () => {
     const newAsset = {
       id: selectedCoin.id,
+      unique_id: selectedCoin.id + uuid.v4(),
       name: selectedCoin.name,
       image: selectedCoin.image.small,
       ticker: selectedCoin.symbol.toUpperCase(),
@@ -70,7 +79,11 @@ const AddNewAssetScreen = () => {
   };
 
   return (
-    <View style={{ flex: 1 }}>
+    <KeyboardAvoidingView
+      style={{ flex: 1 }}
+      keyboardVerticalOffset={80}
+      behavior={(Platform.OS === "ios" ? "padding" : "height")}
+    >
       <SearchableDropdown
         items={allCoins}
         onItemSelect={(item) => setSelectedCoinId(item.id)}
@@ -93,7 +106,7 @@ const AddNewAssetScreen = () => {
                 style={{ color: "white", fontSize: 90 }}
                 value={boughtAssetQuantity}
                 placeholder="0"
-                // keyboardType="numeric"
+                keyboardType="numeric"
                 onChangeText={setBoughtAssetQuantity}
               />
               <Text style={styles.ticker}>
@@ -123,7 +136,7 @@ const AddNewAssetScreen = () => {
           </Pressable>
         </>
       )}
-    </View>
+    </KeyboardAvoidingView>
   );
 };
 

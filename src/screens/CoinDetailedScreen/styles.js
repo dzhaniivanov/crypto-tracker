@@ -19,7 +19,7 @@ const styles = StyleSheet.create({
   },
   priceChange: { color: "white", fontSize: 17, fontWeight: "500" },
   input: {
-    flex:1,
+    flex: 1,
     height: 40,
     margin: 12,
     borderBottomWidth: 1,
@@ -27,6 +27,14 @@ const styles = StyleSheet.create({
     padding: 10,
     fontSize: 16,
     color: "white",
+  },
+  filtersContainer: {
+    flexDirection: "row",
+    justifyContent: "space-around",
+    backgroundColor: "#2b2b2b",
+    paddingVertical: 5,
+    borderRadius: 5,
+    marginVertical: 10,
   },
 });
 
